@@ -1,0 +1,2127 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <title>Pendaftaran Produk Haiwan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --orange: #ff8f1f;
+            --orange-deep: #ff7a00;
+            --ink: #111111;
+            --muted: #777f89;
+            --line: #eef0f3;
+            --soft: #f6f7f9;
+            --white: #ffffff;
+            --shadow: 0 18px 35px rgba(15, 23, 42, .08);
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            background: #f4f5f7;
+            color: var(--ink);
+            font-family: "Poppins", Arial, sans-serif;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        img { display: block; max-width: 100%; }
+        button, input, select { font: inherit; }
+
+        .page {
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: center;
+            gap: 34px;
+            padding: 17px 20px 12px;
+            color: #0f1115;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .topbar span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .nav-wrap {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            padding: 0 18px;
+        }
+
+        .nav {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1.5fr;
+            align-items: center;
+            width: min(1030px, 100%);
+            min-height: 68px;
+            margin: 0 auto;
+            padding: 0 24px;
+            background: var(--white);
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .brand .logo {
+            width: 26px;
+            height: 26px;
+            object-fit: contain;
+        }
+
+        .brand span {
+            line-height: 1;
+            font-size: 13px;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 62px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a {
+            padding: 25px 0 22px;
+            border-bottom: 2px solid transparent;
+            color: var(--ink);
+        }
+
+        .nav-links a.active,
+        .nav-links a:hover {
+            color: var(--orange-deep);
+            border-color: var(--orange-deep);
+        }
+
+        .nav-tools {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .search {
+            display: flex;
+            align-items: center;
+            height: 29px;
+            min-width: 155px;
+            padding: 0 4px 0 14px;
+            background: var(--soft);
+            border-radius: 999px;
+        }
+
+        .search input {
+            width: 100%;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            font-size: 11px;
+        }
+
+        .search button,
+        .cart-btn {
+            display: grid;
+            width: 24px;
+            height: 24px;
+            place-items: center;
+            border: 0;
+            border-radius: 50%;
+            color: var(--white);
+            background: #050505;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .cart {
+            position: relative;
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .cart::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: -2px;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--orange-deep);
+        }
+
+        .translate-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .translate {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            white-space: nowrap;
+            border: 0;
+            padding: 0;
+            background: transparent;
+            cursor: pointer;
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .translate .globe {
+            display: grid;
+            width: 28px;
+            height: 28px;
+            place-items: center;
+            border: 2px solid #111;
+            border-radius: 50%;
+            font-size: 15px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            box-shadow: 0 18px 35px rgba(15, 23, 42, .12);
+            padding: 8px;
+            min-width: 130px;
+            z-index: 50;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .dropdown-content a:hover,
+        .dropdown-content a.active {
+            background: #fff4e9;
+            color: var(--orange-deep);
+        }
+
+        .translate-wrap.open .dropdown-content {
+            display: block;
+        }
+
+        .auth {
+            white-space: nowrap;
+        }
+
+        .auth a,
+        .user-email-logout {
+            color: var(--ink);
+        }
+
+        .user-email-logout {
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 394px;
+            margin-top: -7px;
+            background: #f6f7f9;
+        }
+
+        .hero-inner {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            width: min(860px, calc(100% - 38px));
+            height: 394px;
+            margin: 0 auto;
+        }
+
+        .hero-copy {
+            align-self: center;
+            max-width: 330px;
+            padding-top: 42px;
+        }
+
+        .eyebrow {
+            margin: 0 0 9px;
+            color: var(--orange-deep);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .hero h1 {
+            margin: 0;
+            max-width: 310px;
+            font-size: 20px;
+            line-height: 1.28;
+            font-weight: 800;
+        }
+
+        .hero p {
+            margin: 36px 0 0;
+            max-width: 315px;
+            color: #42474e;
+            font-size: 11px;
+            line-height: 1.65;
+            font-weight: 500;
+        }
+
+        .hero-art {
+            position: relative;
+            align-self: end;
+            height: 330px;
+        }
+
+        .hero-blob {
+            position: absolute;
+            right: -44px;
+            bottom: 0;
+            width: 535px;
+            height: 345px;
+            border-radius: 51% 49% 0 0 / 70% 72% 0 0;
+            background: var(--orange);
+            overflow: hidden;
+        }
+
+        .hero-blob::before {
+            content: "";
+            position: absolute;
+            inset: 38px 82px -20px 82px;
+            border-radius: 50% 50% 0 0;
+            background: rgba(255, 130, 21, .92);
+        }
+
+        .hero-pets {
+            position: absolute;
+            right: 34px;
+            bottom: 0;
+            display: grid;
+            grid-template-columns: 150px 220px;
+            align-items: end;
+            width: 390px;
+            z-index: 2;
+        }
+
+        .hero-pets img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .hero-pets .cat {
+            height: 330px;
+            margin-left: -44px;
+        }
+
+        .hero-pets .hamster {
+            position: absolute;
+            left: 175px;
+            bottom: 0;
+            width: 74px;
+            height: 88px;
+            border-radius: 50%;
+            z-index: 4;
+            object-fit: contain;
+        }
+
+        .hero-pets .dog {
+            margin-right: -6px;
+            height: 255px;
+            object-fit: contain;
+            object-position: center bottom;
+        }
+
+        .bird {
+            position: absolute;
+            top: 90px;
+            left: 50%;
+            width: 98px;
+            height: 86px;
+            border-radius: 50%;
+            object-fit: cover;
+            transform: translateX(-88px) rotate(-13deg);
+            z-index: 3;
+        }
+
+        .accent-shape {
+            position: absolute;
+            width: 124px;
+            height: 124px;
+            border-radius: 50%;
+            background: rgba(255, 143, 31, .12);
+            filter: blur(10px);
+        }
+
+        .accent-top { top: 24px; left: 12%; }
+        .accent-bottom { bottom: 10px; right: 6%; width: 160px; height: 160px; }
+
+        .section {
+            padding: 0;
+        }
+
+        .section-inner {
+            width: min(860px, calc(100% - 38px));
+            margin: 0 auto;
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 33px;
+        }
+
+        .section-title {
+            margin: 0;
+            font-size: 28px;
+            line-height: 1.15;
+            font-weight: 800;
+        }
+
+        .arrows {
+            display: flex;
+            gap: 26px;
+        }
+
+        .arrow {
+            display: grid;
+            width: 28px;
+            height: 28px;
+            place-items: center;
+            border-radius: 50%;
+            color: var(--white);
+            background: #000;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            padding: 43px 0 52px;
+        }
+
+        .category-card {
+            overflow: hidden;
+            border-radius: 10px;
+            background: #f7f8fa;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, .05);
+        }
+
+        .category-card.active-filter,
+        .pet.active-filter {
+            outline: 2px solid rgba(255, 122, 0, .45);
+            outline-offset: 2px;
+        }
+
+        .category-card img {
+            width: 100%;
+            aspect-ratio: 1.45;
+            object-fit: cover;
+        }
+
+        .category-body {
+            display: grid;
+            grid-template-columns: 1fr 22px;
+            gap: 8px;
+            padding: 12px 13px 14px;
+        }
+
+        .category-body h3 {
+            margin: 0 0 4px;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .category-body p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .category-body .go {
+            align-self: center;
+            color: var(--orange-deep);
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .pets-section { padding: 38px 0 0; }
+        .shop-section { padding: 48px 0 68px; }
+
+        .portal-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            width: min(860px, calc(100% - 38px));
+            margin: 0 auto 20px;
+        }
+
+        .portal-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 36px;
+            padding: 0 14px;
+            border-radius: 999px;
+            background: #111;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .portal-links a.alt {
+            background: #fff4e9;
+            color: var(--orange-deep);
+        }
+
+        .app-section {
+            width: min(860px, calc(100% - 38px));
+            margin: 0 auto 24px;
+            scroll-margin-top: 110px;
+        }
+
+        .section-card {
+            padding: 24px;
+            border-radius: 24px;
+            background: #fff;
+            box-shadow: 0 18px 35px rgba(15, 23, 42, .08);
+        }
+
+        .section-card h2 {
+            margin: 0 0 14px;
+            font-size: 24px;
+            line-height: 1.15;
+        }
+
+        .section-card p.lead {
+            margin: 0 0 20px;
+            color: #4a5560;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .panel {
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 18px;
+            background: #fafafa;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .field {
+            display: grid;
+            gap: 7px;
+        }
+
+        .field label,
+        .field .label {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            min-height: 42px;
+            border: 1px solid #d9dde3;
+            border-radius: 10px;
+            padding: 0 12px;
+            background: #fff;
+            color: #111;
+        }
+
+        .field textarea {
+            min-height: 120px;
+            padding: 12px;
+            resize: vertical;
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-primary,
+        .btn-secondary,
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 0 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            border: 0;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--orange-deep);
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: #111;
+            color: #fff;
+        }
+
+        .btn-outline {
+            border: 1px solid #111;
+            background: #fff;
+            color: #111;
+        }
+
+        .detail-card {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .detail-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
+            background: #fff7ee;
+            border-radius: 18px;
+            padding: 16px;
+        }
+
+        .detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 12px 0;
+            color: #4a5560;
+            font-size: 13px;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 28px;
+            padding: 0 10px;
+            border-radius: 999px;
+            background: #fff4e9;
+            color: var(--orange-deep);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .stat-card {
+            padding: 16px;
+            border-radius: 16px;
+            background: linear-gradient(180deg, #fff, #fff8f0);
+            border: 1px solid #fde7ce;
+        }
+
+        .stat-card h3 {
+            margin: 0 0 6px;
+            font-size: 13px;
+            color: #4a5560;
+        }
+
+        .stat-card strong {
+            font-size: 28px;
+            line-height: 1;
+        }
+
+        .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .mini-table th,
+        .mini-table td {
+            border-bottom: 1px solid #eceff3;
+            padding: 10px 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .mini-table th {
+            background: #fafafa;
+            font-size: 11px;
+            color: #4a5560;
+            text-transform: uppercase;
+        }
+
+        .mini-table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .status-active { color: #15803d; font-weight: 700; }
+        .status-low { color: #b45309; font-weight: 700; }
+        .status-out { color: #b91c1c; font-weight: 700; }
+
+        .note {
+            color: #4a5560;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .pet-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 70px;
+            padding: 39px 8px 68px;
+        }
+
+        .pet {
+            display: grid;
+            justify-items: center;
+            gap: 17px;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .pet-portrait {
+            position: relative;
+            display: grid;
+            width: 112px;
+            height: 112px;
+            place-items: center;
+            border-radius: 50%;
+            background: #f6f7f9;
+            overflow: hidden;
+        }
+
+        .pet-portrait.accent {
+            background: var(--orange);
+        }
+
+        .pet-portrait img {
+            width: 103px;
+            height: 103px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .product-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: min(640px, 100%);
+            margin: 0 auto 38px;
+            color: #7a8390;
+            font-size: 13px;
+            font-weight: 600;
+            gap: 12px;
+        }
+
+        .sort {
+            height: 27px;
+            border: 1px solid #8f98a3;
+            border-radius: 3px;
+            background: #fff;
+            color: #65707d;
+            font-size: 13px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: min(640px, 100%);
+            margin: 0 auto;
+            padding-bottom: 70px;
+        }
+
+        .product-empty {
+            width: min(640px, 100%);
+            margin: 12px auto 70px;
+            padding: 18px;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: var(--white);
+            color: #65707d;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .product-card {
+            overflow: hidden;
+            min-height: 260px;
+            padding: 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--white);
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .product-card img {
+            width: 100%;
+            aspect-ratio: 1.18;
+            object-fit: cover;
+            background: #fafafa;
+        }
+
+        .product-info {
+            display: grid;
+            grid-template-columns: 1fr 24px;
+            gap: 8px;
+            padding: 13px 13px 14px;
+        }
+
+        .product-info h3 {
+            margin: 0 0 6px;
+            font-size: 13px;
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        .product-info p {
+            margin: 0;
+            color: #101010;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .info-icon {
+            display: grid;
+            width: 19px;
+            height: 19px;
+            place-items: center;
+            align-self: start;
+            border: 1px solid #111;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .product-meta {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(10, 12, 16, .55);
+            z-index: 200;
+        }
+
+        .modal.open { display: flex; }
+
+        .modal-dialog {
+            position: relative;
+            width: min(860px, 100%);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+            border-radius: 24px;
+            background: #fff;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, .22);
+        }
+
+        .modal-media {
+            background: linear-gradient(180deg, #fff7ee 0%, #fff 100%);
+            display: grid;
+            place-items: center;
+            padding: 24px;
+        }
+
+        .modal-media img {
+            width: 100%;
+            max-width: 340px;
+            height: 320px;
+            object-fit: contain;
+        }
+
+        .modal-body {
+            padding: 28px;
+        }
+
+        .modal-body h3 {
+            margin: 0 0 8px;
+            font-size: 28px;
+            line-height: 1.1;
+        }
+
+        .modal-body .price {
+            margin: 0 0 16px;
+            color: var(--orange-deep);
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .modal-body p {
+            margin: 0 0 12px;
+            color: #4a5560;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border: 0;
+            border-radius: 50%;
+            background: #111;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            transform: translateX(-50%);
+            background: #0b0d10;
+            color: var(--white);
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 700;
+            box-shadow: 0 18px 35px rgba(0, 0, 0, .25);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .15s ease;
+            z-index: 100;
+        }
+
+        .toast.show { opacity: 1; }
+
+        @media (max-width: 900px) {
+            .topbar { flex-wrap: wrap; gap: 10px 18px; }
+
+            .nav {
+                grid-template-columns: 1fr;
+                gap: 14px;
+                padding: 18px;
+            }
+
+            .nav-links,
+            .nav-tools {
+                justify-content: flex-start;
+            }
+
+            .hero-inner {
+                grid-template-columns: 1fr;
+                height: auto;
+                min-height: 650px;
+            }
+
+            .hero-copy { padding: 76px 0 0; }
+            .hero-art { min-height: 330px; }
+
+            .hero-blob {
+                right: 50%;
+                transform: translateX(50%);
+            }
+
+            .category-grid,
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pet-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 34px;
+            }
+
+            .modal-dialog {
+                grid-template-columns: 1fr;
+            }
+
+            .split-grid,
+            .detail-card,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .topbar {
+                align-items: flex-start;
+                justify-content: flex-start;
+                padding-left: 18px;
+            }
+
+            .nav-links { gap: 24px; }
+
+            .nav-tools {
+                flex-wrap: wrap;
+            }
+
+            .search { width: 100%; }
+
+            .hero h1 { font-size: 18px; }
+
+            .hero-pets {
+                right: auto;
+                left: 50%;
+                width: 330px;
+                transform: translateX(-50%);
+            }
+
+            .hero-blob { width: 390px; }
+
+            .category-grid,
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title { font-size: 24px; }
+
+            .product-toolbar {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .modal-body { padding: 22px; }
+            .modal-body h3 { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <div class="topbar">
+            <span>Tel +60 10-211 9319 / +60 10-381 1946</span>
+            <span>Email petseberangjaya@gmail.com</span>
+            <span>Alamat No 63A, Lorong Lampam Seberang Jaya, 13700 Perai, Pulau Pinang</span>
+        </div>
+
+        <div class="nav-wrap">
+            <nav class="nav">
+                <a class="brand" href="#hero">
+                    <img class="logo" src="images/logo.png" alt="Logo">
+                    <span>PENDAFTARAN PRODUK HAIWAN</span>
+                </a>
+
+                <div class="nav-links">
+                    <a class="active" href="#hero" data-i18n="navUtama">Utama</a>
+                    <a href="#produk" data-i18n="navKedai">Kedai</a>
+                </div>
+
+                <div class="nav-tools">
+                    <form class="search" id="searchForm">
+                        <input
+                            type="text"
+                            id="navSearch"
+                            data-i18n-placeholder="searchPlaceholder"
+                            data-i18n-aria-label="pdSearchAria"
+                            placeholder="Cari produk..."
+                            aria-label="Cari produk"
+                        >
+                        <button type="submit" data-i18n-aria-label="pdSubmitSearchAria" aria-label="Hantar carian">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+
+                    <button type="button" class="cart-btn" id="cartBtn" data-i18n-aria-label="pdCartAria" aria-label="Troli">
+                        <span class="cart" aria-hidden="true"><i class="fa-solid fa-cart-shopping"></i></span>
+                    </button>
+
+                    <div class="translate-wrap" id="translateWrap">
+                        <button
+                            type="button"
+                            class="translate"
+                            id="translateToggle"
+                            aria-haspopup="menu"
+                            aria-expanded="false"
+                        >
+                            <span class="globe"><i class="fa-solid fa-globe"></i></span>
+                            <span data-i18n="translateLabel">Terjemah</span> <i class="fa-solid fa-caret-down"></i>
+                        </button>
+                        <div class="dropdown-content" id="translateMenu" role="menu" data-i18n-aria-label="translateMenuAria" aria-label="Terjemah">
+                            <a href="#" data-lang="en" role="menuitem" data-i18n="langEnglish">English</a>
+                            <a href="#" data-lang="ms" role="menuitem" data-i18n="langMalay">Melayu</a>
+                        </div>
+                    </div>
+
+                    <span class="auth"><a href="#login" data-i18n="loginLink">Log Masuk</a> | <a href="#register" data-i18n="registerLink">Daftar</a></span>
+                </div>
+            </nav>
+        </div>
+
+        <div class="portal-links">
+            <a href="#hero" data-i18n="navUtama">Utama</a>
+            <a href="#produk" class="alt" data-i18n="navKedai">Kedai</a>
+            <a href="#login">Login</a>
+            <a href="#register">Register</a>
+            <a href="#admin-dashboard">Admin</a>
+        </div>
+
+        <section class="hero" id="hero" aria-label="Pengenalan">
+            <span class="accent-shape accent-top"></span>
+            <span class="accent-shape accent-bottom"></span>
+            <img class="bird" src="images/bird.png" alt="Burung">
+
+            <div class="hero-inner">
+                <div class="hero-copy">
+                    <p class="eyebrow" data-i18n="heroEyebrow">Pendaftaran Produk Haiwan</p>
+                    <h1 data-i18n="heroTitle">Kedai haiwan ini menyediakan keperluan lengkap untuk kucing, burung dan haiwan kecil.</h1>
+                    <p data-i18n="heroDesc">Kami menawarkan pelbagai produk seperti makanan haiwan, sangkar, suplemen dan aksesori dengan harga berpatutan serta kualiti terjamin.</p>
+                </div>
+
+                <div class="hero-art" aria-hidden="true">
+                    <div class="hero-blob"></div>
+                    <div class="hero-pets">
+                        <img class="dog" src="images/dog.png" alt="Anjing">
+                        <img class="cat" src="images/hero.png" alt="Kucing">
+                        <img class="hamster" src="images/hamster.png" alt="Hamster">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" aria-label="Kategori">
+            <div class="section-inner">
+                <div class="section-head">
+                    <h2 class="section-title" data-i18n="categoryTitle">Kategori</h2>
+                    <div class="arrows" aria-hidden="true">
+                        <span class="arrow"><i class="fa-solid fa-chevron-left"></i></span>
+                        <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                    </div>
+                </div>
+
+                <div class="category-grid" id="categoryGrid">
+                    <a class="category-card" href="#produk" data-category-filter="Accessories">
+                        <img src="images/kategori1.jpg" alt="Aksesori">
+                        <div class="category-body">
+                            <div>
+                                <h3 data-category-key="accessories">Aksesori</h3>
+                                <p><span class="category-count" data-category-count="Accessories">0</span> <span data-i18n="categoryProductsSuffix">produk</span></p>
+                            </div>
+                            <span class="go">&rsaquo;</span>
+                        </div>
+                    </a>
+
+                    <a class="category-card" href="#produk" data-category-filter="Food Animals">
+                        <img src="images/kategori2.jpg" alt="Makanan Haiwan">
+                        <div class="category-body">
+                            <div>
+                                <h3 data-category-key="food animals">Makanan Haiwan</h3>
+                                <p><span class="category-count" data-category-count="Food Animals">0</span> <span data-i18n="categoryProductsSuffix">produk</span></p>
+                            </div>
+                            <span class="go">&rsaquo;</span>
+                        </div>
+                    </a>
+
+                    <a class="category-card" href="#produk" data-category-filter="Cage">
+                        <img src="images/kategori3.jpg" alt="Sangkar">
+                        <div class="category-body">
+                            <div>
+                                <h3 data-category-key="cage">Sangkar</h3>
+                                <p><span class="category-count" data-category-count="Cage">0</span> <span data-i18n="categoryProductsSuffix">produk</span></p>
+                            </div>
+                            <span class="go">&rsaquo;</span>
+                        </div>
+                    </a>
+
+                    <a class="category-card" href="#produk" data-category-filter="Supplements">
+                        <img src="images/kategori4.jpg" alt="Suplemen">
+                        <div class="category-body">
+                            <div>
+                                <h3 data-category-key="supplements">Suplemen</h3>
+                                <p><span class="category-count" data-category-count="Supplements">0</span> <span data-i18n="categoryProductsSuffix">produk</span></p>
+                            </div>
+                            <span class="go">&rsaquo;</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section pets-section" aria-label="Maklumat haiwan peliharaan">
+            <div class="section-inner">
+                <div class="section-head">
+                    <h2 class="section-title" data-i18n="petInfoTitle">Maklumat mengikut haiwan peliharaan</h2>
+                    <div class="arrows" aria-hidden="true">
+                        <span class="arrow">&lsaquo;</span>
+                        <span class="arrow">&rsaquo;</span>
+                    </div>
+                </div>
+
+                <div class="pet-row">
+                    <a class="pet" href="#produk" data-animal-filter="Cat">
+                        <div class="pet-portrait">
+                            <img src="images/hero.png" alt="Kucing">
+                        </div>
+                        <span data-pet-key="cat">Kucing</span>
+                    </a>
+
+                    <a class="pet" href="#produk" data-animal-filter="Hamster">
+                        <div class="pet-portrait">
+                            <img src="images/hamster.png" alt="Hamster">
+                        </div>
+                        <span data-pet-key="hamster">Hamster</span>
+                    </a>
+
+                    <a class="pet" href="#produk" data-animal-filter="Dog">
+                        <div class="pet-portrait">
+                            <img src="images/dog.png" alt="Anjing">
+                        </div>
+                        <span data-pet-key="dog">Anjing</span>
+                    </a>
+
+                    <a class="pet" href="#produk" data-animal-filter="Bird">
+                        <div class="pet-portrait accent">
+                            <img src="images/bird.png" alt="Burung">
+                        </div>
+                        <span data-pet-key="bird">Burung</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section shop-section" id="produk" aria-label="Kedai">
+            <div class="section-inner">
+                <form class="product-toolbar" id="productToolbar">
+                    <span id="toolbarResults">Menunjukkan 0 hasil</span>
+                    <select class="sort" id="sortSelect" data-i18n-aria-label="sortProductsAria" aria-label="Susun produk">
+                        <option value="latest" data-i18n="sortLatest">Susun mengikut terbaharu</option>
+                        <option value="price" data-i18n="sortPrice">Susun mengikut harga</option>
+                        <option value="name" data-i18n="sortName">Susun mengikut nama</option>
+                    </select>
+                </form>
+
+                <div class="product-grid" id="productGrid"></div>
+                <p class="product-empty" id="productEmpty" data-i18n="productEmpty" hidden>Tiada produk untuk dipaparkan.</p>
+            </div>
+        </section>
+
+        <section class="app-section" id="product-detail" aria-label="Butiran produk">
+            <div class="section-card">
+                <h2 data-i18n="pdDetailsHeading">Butiran Produk</h2>
+                <p class="lead">Klik mana-mana kad produk untuk lihat butiran penuh dalam satu halaman.</p>
+                <div class="detail-card">
+                    <img id="detailImage" src="images/logo.png" alt="Produk">
+                    <div>
+                        <h3 id="detailTitle">Produk Demo</h3>
+                        <div class="detail-meta">
+                            <span class="pill" id="detailPrice">RM0.00</span>
+                            <span id="detailCategory">Kategori</span>
+                            <span id="detailAnimal">Haiwan</span>
+                            <span id="detailStock">Stok</span>
+                        </div>
+                        <p class="note" id="detailDescription">Pilih produk daripada bahagian kedai untuk memaparkan butiran di sini.</p>
+                        <div class="btn-row">
+                            <button class="btn-primary" type="button" id="detailAddCart">Tambah ke Troli</button>
+                            <button class="btn-outline" type="button" id="detailOpenModal">Buka Ringkasan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="app-section" id="login" aria-label="Log masuk">
+            <div class="section-card">
+                <h2 data-i18n="loginSubmit">Log Masuk</h2>
+                <p class="lead">Versi demo dalam satu fail HTML. Hantar borang akan kekal di halaman ini dan tidak memerlukan PHP.</p>
+                <div class="split-grid">
+                    <div class="panel">
+                        <h3 style="margin-top:0">Akses Akaun</h3>
+                        <form class="form-grid" id="loginForm">
+                            <div class="field">
+                                <label for="loginEmail" data-i18n="loginEmailLabel">Emel</label>
+                                <input id="loginEmail" type="email" placeholder="demo@example.com">
+                            </div>
+                            <div class="field">
+                                <label for="loginPasswordField" data-i18n="loginPasswordLabel">Kata laluan</label>
+                                <input id="loginPasswordField" type="password" placeholder="••••••••">
+                            </div>
+                            <div class="btn-row">
+                                <button class="btn-primary" type="submit" data-i18n="loginSubmit">Log Masuk</button>
+                                <a class="btn-outline" href="#register" data-i18n="registerLink">Daftar</a>
+                            </div>
+                            <p class="note" data-i18n="loginForgotHelp">Sila hubungi pentadbir kedai untuk menetapkan semula kata laluan.</p>
+                        </form>
+                    </div>
+                    <div class="panel">
+                        <h3 style="margin-top:0">Apa yang berlaku?</h3>
+                        <p class="note">Halaman ini sudah dibina tanpa PHP. Login di sini adalah demo untuk navigasi, bukan sambungan server.</p>
+                        <p class="note">Kalau anda mahu backend sebenar, kita masih boleh sambung semula ke PHP + MySQL seperti asal.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="app-section" id="register" aria-label="Daftar akaun">
+            <div class="section-card">
+                <h2 data-i18n="registerHeading">Akaun Saya</h2>
+                <p class="lead">Borang pendaftaran demo untuk tontonan offline. Data tak dihantar ke server.</p>
+                <div class="split-grid">
+                    <div class="panel">
+                        <form class="form-grid" id="registerForm">
+                            <div class="field-row">
+                                <div class="field">
+                                    <label for="regName" data-i18n="formLabelName">Nama</label>
+                                    <input id="regName" type="text" placeholder="Nama anda">
+                                </div>
+                                <div class="field">
+                                    <label for="regEmail" data-i18n="formLabelEmail">Emel</label>
+                                    <input id="regEmail" type="email" placeholder="nama@domain.com">
+                                </div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field">
+                                    <label for="regPassword" data-i18n="registerNewPassword">Kata laluan baharu</label>
+                                    <input id="regPassword" type="password" placeholder="Minimum 8 aksara">
+                                </div>
+                                <div class="field">
+                                    <label for="regPhone" data-i18n="registerMobileNo">No. telefon bimbit</label>
+                                    <input id="regPhone" type="text" placeholder="012-3456789">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <span class="label" data-i18n="registerAccountType">Akaun</span>
+                                <select id="regRole">
+                                    <option value="user" data-i18n="registerAccountUser">User / Pelanggan</option>
+                                    <option value="admin" data-i18n="registerAccountAdmin">Admin / Pemilik</option>
+                                </select>
+                            </div>
+                            <div class="btn-row">
+                                <button class="btn-primary" type="submit" data-i18n="registerSubmit">Daftar</button>
+                                <a class="btn-outline" href="#login" data-i18n="loginLink">Log Masuk</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel">
+                        <h3 style="margin-top:0">Maklumat pendaftaran</h3>
+                        <p class="note" data-i18n="registerPasswordHelp">Kata laluan anda mestilah sekurang-kurangnya 8 aksara, termasuk huruf kecil, huruf besar, nombor dan aksara khas.</p>
+                        <p class="note">Jika anda mahu, saya boleh sambungkan borang ini semula ke backend PHP kemudian.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="app-section" id="admin-dashboard" aria-label="Dashboard admin">
+            <div class="section-card">
+                <h2 data-i18n="adminDashBoardTitle">DASHBOARD</h2>
+                <p class="lead">Paparan demo untuk admin, digabungkan terus dalam fail yang sama.</p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3 data-i18n="adminMetricTotalProducts">TOTAL PRODUCTS</h3>
+                        <strong id="statProducts">0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <h3 data-i18n="adminMetricRegister">REGISTER</h3>
+                        <strong id="statRegister">0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <h3 data-i18n="adminMetricApproval">APPROVAL</h3>
+                        <strong id="statApproval">0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <h3 data-i18n="adminMetricMonthly">MONTHLY TOTAL</h3>
+                        <strong id="statMonthly">RM0.00</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="app-section" id="admin-products" aria-label="Produk admin">
+            <div class="section-card">
+                <h2 data-i18n="adminProductsTitle">SENARAI PRODUK &amp; PENGURUSAN STOK</h2>
+                <p class="lead">Jadual ini menggunakan data demo yang sama dengan bahagian kedai.</p>
+                <table class="mini-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Kategori</th>
+                            <th>Haiwan</th>
+                            <th>Harga</th>
+                            <th>Stok</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminProductsBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="app-section" id="admin-users" aria-label="Pengguna admin">
+            <div class="section-card">
+                <h2 data-i18n="adminUsersTitle">SENARAI PELANGGAN</h2>
+                <p class="lead">Contoh data pengguna untuk preview admin offline.</p>
+                <table class="mini-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Emel</th>
+                            <th>Telefon</th>
+                            <th>Jantina</th>
+                            <th>Peranan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminUsersBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal" id="productModal" aria-hidden="true">
+        <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <button class="modal-close" type="button" id="modalClose" aria-label="Tutup">×</button>
+            <div class="modal-media">
+                <img id="modalImage" src="" alt="">
+            </div>
+            <div class="modal-body">
+                <h3 id="modalTitle">Produk</h3>
+                <p class="price" id="modalPrice">RM0.00</p>
+                <p id="modalMeta"></p>
+                <p id="modalDescription"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" data-i18n="toastCartEmpty">Troli anda kosong buat masa ini.</div>
+
+    <script>
+    /**
+     * Shared UI language (Malay / English). Uses localStorage key "lang".
+     * Mark translatable nodes with data-i18n="key", placeholders with data-i18n-placeholder="key".
+     */
+    (function () {
+      "use strict";
+
+      var STORAGE_KEY = "lang";
+
+      var DICT = {
+        ms: {
+          translateLabel: "Terjemah",
+          navUtama: "Utama",
+          navKedai: "Kedai",
+          loginLink: "Log Masuk",
+          registerLink: "Daftar",
+          logoutEmailTitle: "Log keluar",
+          searchPlaceholder: "Cari produk…",
+          toastCartEmpty: "Troli anda kosong buat masa ini.",
+          heroEyebrow: "Pendaftaran Produk Haiwan",
+          heroTitle:
+            "Kedai haiwan ini menyediakan keperluan lengkap untuk kucing, burung dan haiwan kecil.",
+          heroDesc:
+            "Kami menawarkan pelbagai produk seperti makanan haiwan, sangkar, suplemen dan aksesori dengan harga berpatutan serta kualiti terjamin.",
+          categoryTitle: "Kategori",
+          petInfoTitle: "Maklumat mengikut haiwan peliharaan",
+          sortLatest: "Susun mengikut terbaharu",
+          sortPrice: "Susun mengikut harga",
+          sortName: "Susun mengikut nama",
+          langEnglish: "English",
+          langMalay: "Melayu",
+          translateMenuAria: "Terjemah",
+          productEmpty: "Tiada produk untuk dipaparkan.",
+          categoryProductsSuffix: "produk",
+          productDetailsLinkAria: "Lihat butiran produk",
+          sortProductsAria: "Susun produk",
+          pdSearchAria: "Cari produk",
+          pdSubmitSearchAria: "Hantar carian",
+          pdCartAria: "Troli",
+          pdDetailsHeading: "Butiran Produk",
+          loginEmailLabel: "Emel",
+          loginPasswordLabel: "Kata laluan",
+          loginForgotHelp: "Sila hubungi pentadbir kedai untuk menetapkan semula kata laluan.",
+          registerHeading: "Akaun Saya",
+          formLabelName: "Nama",
+          formLabelEmail: "Emel",
+          registerNewPassword: "Kata laluan baharu",
+          registerMobileNo: "No. telefon bimbit",
+          registerAccountType: "Akaun",
+          registerAccountUser: "User / Pelanggan",
+          registerAccountAdmin: "Admin / Pemilik",
+          registerSubmit: "Daftar",
+          registerPasswordHelp:
+            "Kata laluan anda mestilah sekurang-kurangnya 8 aksara, termasuk huruf kecil, huruf besar, nombor dan aksara khas.",
+          adminDashBoardTitle: "DASHBOARD",
+          adminMetricTotalProducts: "TOTAL PRODUCTS",
+          adminMetricRegister: "REGISTER",
+          adminMetricApproval: "APPROVAL",
+          adminMetricMonthly: "MONTHLY TOTAL",
+          adminProductsTitle: "SENARAI PRODUK & PENGURUSAN STOK",
+          adminUsersTitle: "SENARAI PELANGGAN"
+        },
+        en: {
+          translateLabel: "Translate",
+          navUtama: "Home",
+          navKedai: "Shop",
+          loginLink: "Log In",
+          registerLink: "Register",
+          logoutEmailTitle: "Log out",
+          searchPlaceholder: "Search products…",
+          toastCartEmpty: "Your cart is empty for now.",
+          heroEyebrow: "Pet Product Registration",
+          heroTitle:
+            "This pet shop provides everything you need for cats, birds and small pets.",
+          heroDesc:
+            "We offer a variety of products like pet food, cages, supplements and accessories at affordable prices with guaranteed quality.",
+          categoryTitle: "Categories",
+          petInfoTitle: "Information by Pet Type",
+          sortLatest: "Sort by latest",
+          sortPrice: "Sort by price",
+          sortName: "Sort by name",
+          langEnglish: "English",
+          langMalay: "Malay",
+          translateMenuAria: "Translate",
+          productEmpty: "No products to display.",
+          categoryProductsSuffix: "products",
+          productDetailsLinkAria: "View product details",
+          sortProductsAria: "Sort products",
+          pdSearchAria: "Search products",
+          pdSubmitSearchAria: "Submit search",
+          pdCartAria: "Cart",
+          pdDetailsHeading: "Product Details",
+          loginEmailLabel: "Email",
+          loginPasswordLabel: "Password",
+          loginForgotHelp: "Please contact the shop admin to reset your password.",
+          registerHeading: "My Account",
+          formLabelName: "Name",
+          formLabelEmail: "Email",
+          registerNewPassword: "New password",
+          registerMobileNo: "Mobile No",
+          registerAccountType: "Account",
+          registerAccountUser: "User / Customer",
+          registerAccountAdmin: "Admin / Owner",
+          registerSubmit: "Register",
+          registerPasswordHelp:
+            "Your password must be at least 8 characters long, including lower case, upper case, numbers and special characters.",
+          adminDashBoardTitle: "DASHBOARD",
+          adminMetricTotalProducts: "TOTAL PRODUCTS",
+          adminMetricRegister: "REGISTER",
+          adminMetricApproval: "APPROVAL",
+          adminMetricMonthly: "MONTHLY TOTAL",
+          adminProductsTitle: "PRODUCT LIST & STOCK MANAGEMENT",
+          adminUsersTitle: "CUSTOMER LIST"
+        }
+      };
+
+      function getStoredLang() {
+        return localStorage.getItem(STORAGE_KEY) === "en" ? "en" : "ms";
+      }
+
+      function applyLanguage(lang) {
+        var normalized = (lang || "").trim().toLowerCase() === "en" ? "en" : "ms";
+        var copy = DICT[normalized] || DICT.ms;
+        window.__SITE_LANG__ = normalized;
+        document.documentElement.lang = normalized === "en" ? "en" : "ms";
+        localStorage.setItem(STORAGE_KEY, normalized);
+
+        document.querySelectorAll("[data-i18n]").forEach(function (el) {
+          var key = el.getAttribute("data-i18n");
+          if (key && copy[key]) {
+            el.textContent = copy[key];
+          }
+        });
+
+        document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
+          var key = el.getAttribute("data-i18n-placeholder");
+          if (key && copy[key]) {
+            el.setAttribute("placeholder", copy[key]);
+          }
+        });
+
+        document.querySelectorAll("[data-i18n-aria-label]").forEach(function (el) {
+          var key = el.getAttribute("data-i18n-aria-label");
+          if (key && copy[key]) {
+            el.setAttribute("aria-label", copy[key]);
+          }
+        });
+
+        document.querySelectorAll("[data-i18n-title]").forEach(function (el) {
+          var key = el.getAttribute("data-i18n-title");
+          if (key && copy[key]) {
+            el.setAttribute("title", copy[key]);
+          }
+        });
+
+        var menu = document.getElementById("translateMenu");
+        if (menu) {
+          menu.querySelectorAll("a[data-lang]").forEach(function (a) {
+            a.classList.toggle("active", a.getAttribute("data-lang") === normalized);
+          });
+        }
+
+        document.dispatchEvent(
+          new CustomEvent("site-lang-change", { detail: { lang: normalized } }),
+        );
+      }
+
+      function bindTranslateUi() {
+        var translateWrap = document.getElementById("translateWrap");
+        var translateToggle = document.getElementById("translateToggle");
+        var translateMenu = document.getElementById("translateMenu");
+        if (!translateWrap || !translateToggle || !translateMenu) {
+          return;
+        }
+
+        function setTranslateOpen(open) {
+          translateWrap.classList.toggle("open", open);
+          translateToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        }
+
+        translateToggle.addEventListener("click", function () {
+          setTranslateOpen(!translateWrap.classList.contains("open"));
+        });
+
+        document.addEventListener("click", function (e) {
+          if (!translateWrap.contains(e.target)) {
+            setTranslateOpen(false);
+          }
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") {
+            setTranslateOpen(false);
+          }
+        });
+
+        translateMenu.querySelectorAll("a[data-lang]").forEach(function (a) {
+          a.addEventListener("click", function (e) {
+            e.preventDefault();
+            applyLanguage(a.getAttribute("data-lang"));
+            setTranslateOpen(false);
+          });
+        });
+      }
+
+      function init() {
+        bindTranslateUi();
+        applyLanguage(getStoredLang());
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+      } else {
+        init();
+      }
+
+      window.siteI18nPhrase = function (key) {
+        var lang = window.__SITE_LANG__ || getStoredLang();
+        var copy = DICT[lang] || DICT.ms;
+        return copy[key] !== undefined ? copy[key] : "";
+      };
+
+      window.applySiteLanguage = applyLanguage;
+    })();
+    </script>
+    <script>
+        (function () {
+            const PRODUCTS = [
+                {
+                    id: "P0001",
+                    name: "Aksesori Kucing Premium",
+                    price: 19.90,
+                    stock: 12,
+                    category: "Accessories",
+                    animal: "Cat",
+                    image: "images/hero.png",
+                    description: "Aksesori harian yang sesuai untuk kucing aktif dan manja."
+                },
+                {
+                    id: "P0002",
+                    name: "Makanan Kucing Harian",
+                    price: 29.90,
+                    stock: 8,
+                    category: "Food Animals",
+                    animal: "Cat",
+                    image: "images/hero.png",
+                    description: "Pilihan makanan yang lengkap untuk rutin pemakanan kucing."
+                },
+                {
+                    id: "P0003",
+                    name: "Sangkar Burung Mini",
+                    price: 89.00,
+                    stock: 4,
+                    category: "Cage",
+                    animal: "Bird",
+                    image: "images/bird.png",
+                    description: "Sangkar ringan dengan ruang selesa untuk burung kecil."
+                },
+                {
+                    id: "P0004",
+                    name: "Suplemen Tenaga Haiwan",
+                    price: 45.00,
+                    stock: 0,
+                    category: "Supplements",
+                    animal: "Dog",
+                    image: "images/dog.png",
+                    description: "Suplemen sokongan tenaga dan penjagaan kesihatan haiwan."
+                },
+                {
+                    id: "P0005",
+                    name: "Aksesori Hamster Comel",
+                    price: 15.50,
+                    stock: 15,
+                    category: "Accessories",
+                    animal: "Hamster",
+                    image: "images/hamster.png",
+                    description: "Aksesori kecil untuk hamster aktif dan ceria."
+                },
+                {
+                    id: "P0006",
+                    name: "Makanan Hamster Seimbang",
+                    price: 24.00,
+                    stock: 6,
+                    category: "Food Animals",
+                    animal: "Hamster",
+                    image: "images/hamster.png",
+                    description: "Campuran makanan seimbang untuk hamster setiap hari."
+                },
+                {
+                    id: "P0007",
+                    name: "Sangkar Kecil Serbaguna",
+                    price: 120.00,
+                    stock: 2,
+                    category: "Cage",
+                    animal: "Bird",
+                    image: "images/bird.png",
+                    description: "Sangkar praktikal dengan akses mudah untuk penjagaan."
+                },
+                {
+                    id: "P0008",
+                    name: "Suplemen Nutrisi Premium",
+                    price: 38.00,
+                    stock: 10,
+                    category: "Supplements",
+                    animal: "Cat",
+                    image: "images/hero.png",
+                    description: "Sokongan nutrisi untuk rutin penjagaan haiwan kesayangan."
+                }
+            ];
+
+            const CATEGORY_LABELS = {
+                "Accessories": "Aksesori",
+                "Food Animals": "Makanan Haiwan",
+                "Cage": "Sangkar",
+                "Supplements": "Suplemen"
+            };
+
+            const ANIMAL_LABELS = {
+                "Cat": "Kucing",
+                "Hamster": "Hamster",
+                "Dog": "Anjing",
+                "Bird": "Burung"
+            };
+
+            const state = {
+                search: "",
+                category: "",
+                animal: "",
+                sort: "latest"
+            };
+
+            const navSearch = document.getElementById("navSearch");
+            const searchForm = document.getElementById("searchForm");
+            const sortSelect = document.getElementById("sortSelect");
+            const productGrid = document.getElementById("productGrid");
+            const productEmpty = document.getElementById("productEmpty");
+            const toolbarResults = document.getElementById("toolbarResults");
+            const cartBtn = document.getElementById("cartBtn");
+            const toast = document.getElementById("toast");
+            const categoryCards = Array.from(document.querySelectorAll("[data-category-filter]"));
+            const petCards = Array.from(document.querySelectorAll("[data-animal-filter]"));
+            const modal = document.getElementById("productModal");
+            const modalClose = document.getElementById("modalClose");
+            const modalImage = document.getElementById("modalImage");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalPrice = document.getElementById("modalPrice");
+            const modalMeta = document.getElementById("modalMeta");
+            const modalDescription = document.getElementById("modalDescription");
+            const detailImage = document.getElementById("detailImage");
+            const detailTitle = document.getElementById("detailTitle");
+            const detailPrice = document.getElementById("detailPrice");
+            const detailCategory = document.getElementById("detailCategory");
+            const detailAnimal = document.getElementById("detailAnimal");
+            const detailStock = document.getElementById("detailStock");
+            const detailDescription = document.getElementById("detailDescription");
+            const detailAddCart = document.getElementById("detailAddCart");
+            const detailOpenModal = document.getElementById("detailOpenModal");
+            const adminProductsBody = document.getElementById("adminProductsBody");
+            const adminUsersBody = document.getElementById("adminUsersBody");
+            const statProducts = document.getElementById("statProducts");
+            const statRegister = document.getElementById("statRegister");
+            const statApproval = document.getElementById("statApproval");
+            const statMonthly = document.getElementById("statMonthly");
+            const USERS = [
+                { id: "U0001", name: "Aina", email: "aina@example.com", phone: "012-3456789", gender: "Perempuan", role: "User" },
+                { id: "U0002", name: "Hakim", email: "hakim@example.com", phone: "013-1112233", gender: "Lelaki", role: "User" },
+                { id: "A0001", name: "Pemilik Kedai", email: "admin@example.com", phone: "010-9998888", gender: "Lelaki", role: "Admin" },
+                { id: "U0003", name: "Siti", email: "siti@example.com", phone: "011-2223344", gender: "Perempuan", role: "User" }
+            ];
+
+            let toastTimer = null;
+            let activeProductId = null;
+            let activeProduct = PRODUCTS[0];
+
+            function formatPrice(value) {
+                return "RM" + Number(value || 0).toFixed(2);
+            }
+
+            function emptyCartCopy() {
+                return (
+                    (typeof window.siteI18nPhrase === "function" && window.siteI18nPhrase("toastCartEmpty")) ||
+                    "Troli anda kosong buat masa ini."
+                );
+            }
+
+            function showToast(message) {
+                if (!toast) return;
+                toast.textContent = message;
+                toast.classList.add("show");
+                if (toastTimer) window.clearTimeout(toastTimer);
+                toastTimer = window.setTimeout(() => toast.classList.remove("show"), 2200);
+            }
+
+            function productMatches(product) {
+                const search = state.search.trim().toLowerCase();
+                const name = product.name.toLowerCase();
+                const category = product.category.toLowerCase();
+                const animal = product.animal.toLowerCase();
+                const matchesSearch = !search || name.includes(search) || category.includes(search) || animal.includes(search);
+                const matchesCategory = !state.category || product.category === state.category;
+                const matchesAnimal = !state.animal || product.animal === state.animal;
+                return matchesSearch && matchesCategory && matchesAnimal;
+            }
+
+            function sortedProducts(items) {
+                const list = items.slice();
+                if (state.sort === "price") {
+                    return list.sort((a, b) => a.price - b.price);
+                }
+                if (state.sort === "name") {
+                    return list.sort((a, b) => a.name.localeCompare(b.name));
+                }
+                return list.sort((a, b) => Number(b.id.slice(1)) - Number(a.id.slice(1)));
+            }
+
+            function stockLabel(stock) {
+                if (stock <= 0) return "Stok Habis";
+                if (stock <= 5) return "Stok Rendah";
+                return "Aktif";
+            }
+
+            function updateDetail(product) {
+                if (!product) return;
+                if (detailImage) {
+                    detailImage.src = product.image;
+                    detailImage.alt = product.name;
+                }
+                if (detailTitle) detailTitle.textContent = product.name;
+                if (detailPrice) detailPrice.textContent = formatPrice(product.price);
+                if (detailCategory) detailCategory.textContent = CATEGORY_LABELS[product.category] || product.category;
+                if (detailAnimal) detailAnimal.textContent = ANIMAL_LABELS[product.animal] || product.animal;
+                if (detailStock) detailStock.textContent = "Stok: " + String(product.stock ?? 0) + " (" + stockLabel(Number(product.stock ?? 0)) + ")";
+                if (detailDescription) detailDescription.textContent = product.description;
+            }
+
+            function renderAdminTables() {
+                if (statProducts) statProducts.textContent = String(PRODUCTS.length);
+                if (statRegister) statRegister.textContent = String(USERS.length);
+                if (statApproval) statApproval.textContent = String(USERS.filter((u) => u.role === "Admin").length);
+                if (statMonthly) {
+                    const total = PRODUCTS.reduce((sum, p) => sum + (Number(p.price) * Number(p.stock || 0)), 0);
+                    statMonthly.textContent = formatPrice(total);
+                }
+
+                if (adminProductsBody) {
+                    adminProductsBody.innerHTML = PRODUCTS.map((product) => {
+                        const stock = Number(product.stock || 0);
+                        const statusClass = stock <= 0 ? "status-out" : stock <= 5 ? "status-low" : "status-active";
+                        const statusText = stockLabel(stock);
+                        return `
+                            <tr>
+                                <td>${product.id}</td>
+                                <td>${product.name}</td>
+                                <td>${CATEGORY_LABELS[product.category] || product.category}</td>
+                                <td>${ANIMAL_LABELS[product.animal] || product.animal}</td>
+                                <td>${formatPrice(product.price)}</td>
+                                <td>${stock}</td>
+                                <td class="${statusClass}">${statusText}</td>
+                            </tr>
+                        `;
+                    }).join("");
+                }
+
+                if (adminUsersBody) {
+                    adminUsersBody.innerHTML = USERS.map((user) => `
+                        <tr>
+                            <td>${user.id}</td>
+                            <td>${user.name}</td>
+                            <td>${user.email}</td>
+                            <td>${user.phone}</td>
+                            <td>${user.gender}</td>
+                            <td>${user.role}</td>
+                        </tr>
+                    `).join("");
+                }
+            }
+
+            function renderCounts() {
+                Object.keys(CATEGORY_LABELS).forEach((key) => {
+                    const count = PRODUCTS.filter((p) => p.category === key).length;
+                    document.querySelectorAll(`[data-category-count="${key}"]`).forEach((el) => {
+                        el.textContent = String(count);
+                    });
+                });
+            }
+
+            function openModal(product) {
+                if (!modal) return;
+                activeProductId = product.id;
+                activeProduct = product;
+                updateDetail(product);
+                modalImage.src = product.image;
+                modalImage.alt = product.name;
+                modalTitle.textContent = product.name;
+                modalPrice.textContent = formatPrice(product.price);
+                modalMeta.textContent = `${CATEGORY_LABELS[product.category] || product.category} | ${ANIMAL_LABELS[product.animal] || product.animal} | ${product.id}`;
+                modalDescription.textContent = product.description;
+                modal.classList.add("open");
+                modal.setAttribute("aria-hidden", "false");
+                document.body.style.overflow = "hidden";
+            }
+
+            function closeModal() {
+                if (!modal) return;
+                modal.classList.remove("open");
+                modal.setAttribute("aria-hidden", "true");
+                document.body.style.overflow = "";
+                activeProductId = null;
+            }
+
+            function renderProducts() {
+                const visible = sortedProducts(PRODUCTS.filter(productMatches));
+                productGrid.innerHTML = "";
+
+                if (!visible.length) {
+                    productEmpty.hidden = false;
+                    toolbarResults.textContent = "Menunjukkan 0 hasil";
+                    return;
+                }
+
+                productEmpty.hidden = true;
+                toolbarResults.textContent = `Menunjukkan ${visible.length} hasil`;
+
+                visible.forEach((product) => {
+                    const card = document.createElement("button");
+                    card.type = "button";
+                    card.className = "product-card";
+                    card.dataset.productId = product.id;
+                    card.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="product-info">
+                            <div>
+                                <h3>${product.name}</h3>
+                                <p>${formatPrice(product.price)}</p>
+                                <div class="product-meta">${CATEGORY_LABELS[product.category] || product.category} | ${ANIMAL_LABELS[product.animal] || product.animal}</div>
+                            </div>
+                            <span class="info-icon" aria-hidden="true"><i class="fa-solid fa-circle-info"></i></span>
+                        </div>
+                    `;
+                    card.addEventListener("click", () => openModal(product));
+                    productGrid.appendChild(card);
+                });
+
+                const inView = visible.find((product) => product.id === activeProduct?.id);
+                if (!inView && visible[0]) {
+                    activeProduct = visible[0];
+                }
+                updateDetail(activeProduct || visible[0]);
+            }
+
+            function applyCategory(category) {
+                state.category = state.category === category ? "" : category;
+                renderProducts();
+            }
+
+            function applyAnimal(animal) {
+                state.animal = state.animal === animal ? "" : animal;
+                renderProducts();
+            }
+
+            function syncFilterVisuals() {
+                categoryCards.forEach((card) => {
+                    card.classList.toggle("active-filter", card.dataset.categoryFilter === state.category);
+                });
+                petCards.forEach((card) => {
+                    card.classList.toggle("active-filter", card.dataset.animalFilter === state.animal);
+                });
+            }
+
+            categoryCards.forEach((card) => {
+                card.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const nextCategory = card.dataset.categoryFilter || "";
+                    state.category = state.category === nextCategory ? "" : nextCategory;
+                    syncFilterVisuals();
+                    renderProducts();
+                    document.getElementById("produk").scrollIntoView({ behavior: "smooth", block: "start" });
+                });
+            });
+
+            petCards.forEach((card) => {
+                card.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const nextAnimal = card.dataset.animalFilter || "";
+                    state.animal = state.animal === nextAnimal ? "" : nextAnimal;
+                    syncFilterVisuals();
+                    renderProducts();
+                    document.getElementById("produk").scrollIntoView({ behavior: "smooth", block: "start" });
+                });
+            });
+
+            searchForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                state.search = navSearch.value || "";
+                renderProducts();
+                document.getElementById("produk").scrollIntoView({ behavior: "smooth", block: "start" });
+            });
+
+            navSearch.addEventListener("input", () => {
+                state.search = navSearch.value || "";
+                renderProducts();
+            });
+
+            document.querySelectorAll("[data-static-link]").forEach((link) => {
+                link.addEventListener("click", (e) => e.preventDefault());
+            });
+
+            sortSelect.addEventListener("change", () => {
+                state.sort = sortSelect.value;
+                renderProducts();
+            });
+
+            if (cartBtn) {
+                cartBtn.addEventListener("click", () => showToast(emptyCartCopy()));
+            }
+
+            if (modalClose) {
+                modalClose.addEventListener("click", closeModal);
+            }
+
+            if (modal) {
+                modal.addEventListener("click", (e) => {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+            }
+
+            if (detailAddCart) {
+                detailAddCart.addEventListener("click", () => showToast(emptyCartCopy()));
+            }
+
+            if (detailOpenModal) {
+                detailOpenModal.addEventListener("click", () => {
+                    if (activeProduct) {
+                        openModal(activeProduct);
+                    }
+                });
+            }
+
+            document.getElementById("loginForm")?.addEventListener("submit", (e) => {
+                e.preventDefault();
+                showToast("Demo login sahaja dalam fail HTML ini.");
+            });
+
+            document.getElementById("registerForm")?.addEventListener("submit", (e) => {
+                e.preventDefault();
+                showToast("Demo pendaftaran sahaja dalam fail HTML ini.");
+            });
+
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") {
+                    closeModal();
+                }
+            });
+
+            renderCounts();
+            renderProducts();
+            syncFilterVisuals();
+            renderAdminTables();
+
+            document.addEventListener("site-lang-change", () => {
+                renderCounts();
+                renderProducts();
+                renderAdminTables();
+                if (toast && !toast.classList.contains("show")) {
+                    toast.textContent = emptyCartCopy();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
